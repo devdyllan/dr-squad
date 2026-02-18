@@ -1,0 +1,266 @@
+# DR Squad — Asset Registry
+# ============================================================
+# IMPORTANT: This file contains NO real credentials, passwords,
+# tokens, or personally identifiable information.
+# Asset aliases are used throughout. Actual credentials are
+# stored in the approved secrets manager ONLY — never here.
+# ============================================================
+# Schema version: 1.0
+# Maintained by: Contingency Chief (entries require CEO Agent
+# authorization for new assets; human owner approval for any
+# action that changes ACTIVE assets)
+# Access policy: governance/access-control-policy.md
+# ============================================================
+
+schema:
+  asset_id:
+    type: string
+    description: "Unique alias. Format: TYPE_REGION_NN. No real names, emails, or usernames."
+  type:
+    type: string
+    enum:
+      - BUSINESS_MANAGER
+      - AD_ACCOUNT
+      - FB_PAGE
+      - IG_PROFILE
+      - FB_PROFILE
+      - EMAIL_ACCOUNT
+      - BROWSER_PROFILE
+      - DOMAIN
+      - PIXEL
+  status:
+    type: string
+    enum:
+      - WARMING       # In warm-up protocol; not yet operational
+      - READY         # Warm-up complete; available for activation
+      - ACTIVE        # Deployed in live operations
+      - ISOLATED      # Flagged or suspended; removed from ready pool
+      - RETIRED       # Permanently decommissioned
+  region:
+    type: string
+    description: "Operational region code. e.g., US, CA, UK, AU"
+  platform:
+    type: string
+    description: "Platform this asset belongs to. e.g., META, GOOGLE, TIKTOK, EMAIL, BROWSER, DNS"
+  allowed_actions:
+    type: list
+    description: "Explicit list of authorized actions for this asset. Executors may only perform actions on this list."
+  risk_level:
+    type: string
+    enum:
+      - LOW     # No flags; no restrictions; full trust signal
+      - MEDIUM  # Minor historical flag or new/thin trust; monitor
+      - HIGH    # Recent policy warning or restriction; restricted use
+  notes:
+    type: string
+    description: "Operational notes. Warm-up progress, risk context, last verified date. No credentials here."
+
+# ============================================================
+# EXAMPLE ENTRIES
+# ============================================================
+# These are schema-compliant examples. Replace or extend with
+# real entries as assets are farmed and onboarded.
+# ============================================================
+
+assets:
+
+  # --- Business Managers ---
+
+  - asset_id: BM_US_01
+    type: BUSINESS_MANAGER
+    status: READY
+    region: US
+    platform: META
+    allowed_actions:
+      - structure_review
+      - page_attachment
+      - ad_account_attachment
+      - pixel_assignment
+    risk_level: LOW
+    notes: "Warm-up complete 2024-01-10. 14-day organic activity prior to BM creation. No policy flags. Assign ad accounts only after CEO Agent authorization."
+
+  - asset_id: BM_US_02
+    type: BUSINESS_MANAGER
+    status: WARMING
+    region: US
+    platform: META
+    allowed_actions:
+      - structure_review
+    risk_level: LOW
+    notes: "Warm-up started 2024-01-15. Expected READY status: 2024-01-29. No actions permitted until READY."
+
+  # --- Ad Accounts ---
+
+  - asset_id: ADACC_US_01
+    type: AD_ACCOUNT
+    status: READY
+    region: US
+    platform: META
+    allowed_actions:
+      - structure_review
+      - campaign_structure_migration
+    risk_level: LOW
+    notes: "Attached to BM_US_01. No billing attached. No campaigns. Warm-up complete 2024-01-12. Billing attachment requires human owner approval (R4)."
+
+  - asset_id: ADACC_US_02
+    type: AD_ACCOUNT
+    status: WARMING
+    region: US
+    platform: META
+    allowed_actions:
+      - structure_review
+    risk_level: LOW
+    notes: "Attached to BM_US_02. 5-day account warm-up in progress. No actions permitted until READY."
+
+  - asset_id: ADACC_US_03
+    type: AD_ACCOUNT
+    status: ACTIVE
+    region: US
+    platform: META
+    allowed_actions:
+      - campaign_operations
+      - budget_adjustments
+      - creative_upload
+    risk_level: LOW
+    notes: "Currently in live operations under Ads Squad. Activated 2024-01-05. Owned by Traffic Chief. No Contingency Squad actions without Ads Squad handoff confirmation."
+
+  - asset_id: ADACC_US_04
+    type: AD_ACCOUNT
+    status: ISOLATED
+    region: US
+    platform: META
+    allowed_actions: []
+    risk_level: HIGH
+    notes: "Policy warning received 2024-01-08. Account isolated per Platform Risk Sentinel escalation. No actions permitted. Under CEO Agent review."
+
+  # --- Facebook Pages ---
+
+  - asset_id: FBPAGE_US_01
+    type: FB_PAGE
+    status: READY
+    region: US
+    platform: META
+    allowed_actions:
+      - organic_posting
+      - campaign_attachment
+    risk_level: LOW
+    notes: "10-day warm-up complete 2024-01-09. 22 organic posts. 150+ follows. Available for activation in next Mode B event."
+
+  - asset_id: FBPAGE_US_02
+    type: FB_PAGE
+    status: WARMING
+    region: US
+    platform: META
+    allowed_actions:
+      - organic_posting
+    risk_level: LOW
+    notes: "Warm-up started 2024-01-14. Day 4 of 10. Organic posting on schedule. No campaign attachment until READY."
+
+  # --- Instagram Profiles ---
+
+  - asset_id: IG_US_01
+    type: IG_PROFILE
+    status: READY
+    region: US
+    platform: META
+    allowed_actions:
+      - organic_posting
+      - campaign_attachment
+    risk_level: LOW
+    notes: "7-day warm-up complete. Profile complete. 30+ organic posts. Linked to FBPAGE_US_01 for campaign use."
+
+  - asset_id: IG_US_02
+    type: IG_PROFILE
+    status: WARMING
+    region: US
+    platform: META
+    allowed_actions:
+      - organic_posting
+    risk_level: LOW
+    notes: "Warm-up in progress. Day 3 of 7."
+
+  # --- Email Accounts ---
+
+  - asset_id: EMAIL_OPS_US_01
+    type: EMAIL_ACCOUNT
+    status: ACTIVE
+    region: US
+    platform: EMAIL
+    allowed_actions:
+      - platform_registration
+      - account_recovery_backup
+      - notification_receiving
+    risk_level: LOW
+    notes: "Operational email for BM_US_01 account recovery and platform communications. Not for outbound campaigns. No credentials stored here."
+
+  - asset_id: EMAIL_OPS_US_02
+    type: EMAIL_ACCOUNT
+    status: READY
+    region: US
+    platform: EMAIL
+    allowed_actions:
+      - platform_registration
+      - account_recovery_backup
+    risk_level: LOW
+    notes: "Warm-up complete. 5-day send/receive cadence established. Available for next BM or ad account registration."
+
+  # --- Browser Profiles ---
+
+  - asset_id: BROWSER_PROFILE_META_01
+    type: BROWSER_PROFILE
+    status: ACTIVE
+    region: US
+    platform: BROWSER
+    allowed_actions:
+      - meta_platform_ui_actions
+      - warm_up_browsing
+      - account_management_ui
+    risk_level: LOW
+    notes: "Isolated Chromium profile. Used exclusively for META platform operations. Cookies and session established. Assigned to Browser & Automation Operator tasks only. Profile path stored in secrets manager."
+
+  - asset_id: BROWSER_PROFILE_META_02
+    type: BROWSER_PROFILE
+    status: READY
+    region: US
+    platform: BROWSER
+    allowed_actions:
+      - meta_platform_ui_actions
+      - warm_up_browsing
+    risk_level: LOW
+    notes: "Warm-up browsing complete. Available for assignment. Not currently in active use."
+
+  - asset_id: BROWSER_PROFILE_GOOGLE_01
+    type: BROWSER_PROFILE
+    status: READY
+    region: US
+    platform: BROWSER
+    allowed_actions:
+      - google_platform_ui_actions
+      - warm_up_browsing
+    risk_level: LOW
+    notes: "Isolated profile for Google Ads platform operations. Cookie warm-up complete."
+
+  # --- Domains ---
+
+  - asset_id: DOMAIN_BACKUP_US_01
+    type: DOMAIN
+    status: READY
+    region: US
+    platform: DNS
+    allowed_actions:
+      - landing_page_deployment
+    risk_level: LOW
+    notes: "Registered backup domain. DNS not pointed to active infrastructure. Available for landing page deployment if primary domain is flagged. DNS changes require human owner approval (R4)."
+
+  # --- Pixels ---
+
+  - asset_id: PIXEL_META_BACKUP_01
+    type: PIXEL
+    status: READY
+    region: US
+    platform: META
+    allowed_actions:
+      - page_installation
+      - event_configuration
+    risk_level: LOW
+    notes: "Backup Meta pixel. Not installed on any live page. Available for deployment on DOMAIN_BACKUP_US_01 or any activated replacement landing page. Installation requires Ops/QC tracking verification."
