@@ -79,7 +79,18 @@ Domains, ad accounts, payment methods, DNS records, tracking infrastructure, and
 | **A4** | Requires CEO Agent Approval | CEO Agent reviews and approves before execution. Included in weekly digest. |
 | **A5** | Requires Human Approval | Human owner must explicitly approve before any action is taken. CEO Agent prepares the decision packet. |
 
-### 2.3 Prohibited Automation
+### 2.3 API and Automation Cost Controls
+
+All API usage and automation cost is governed by the **API Cost Sentinel** (`agents/api-cost-sentinel.md`). The following rules apply system-wide:
+
+- Budget thresholds are set by the Owner in `governance/owner-settings.md` — no agent sets or modifies these
+- At **70% of any ceiling**: API Cost Sentinel notifies Owner via CEO Agent
+- At **85% of any ceiling**: API Cost Sentinel auto-freezes affected automations — no CEO Agent override permitted
+- At **100% of any ceiling**: API Cost Sentinel triggers Emergency Halt across all API-consuming operations
+- **No auto-resume**: Freeze and halt states require explicit Owner approval to lift. No agent, including the CEO Agent, may resume frozen systems without Owner instruction.
+- Any action that increases, introduces, or expands a recurring API cost is classified as HIGH RISK by default and requires Owner approval (A5)
+
+### 2.4 Prohibited Automation
 
 The following actions are **permanently prohibited from automation** regardless of tier, urgency, or operational context:
 
@@ -209,6 +220,16 @@ The following infrastructure elements are protected and may not be modified by a
 - Business manager / agency account structures
 
 All changes to protected infrastructure require human owner approval (A5, R4).
+
+### 6.4 Contingency Infrastructure Rules
+
+The Contingency Squad (`agents/contingency-squad.md`) is the only squad authorized to build and maintain backup platform infrastructure. The following rules are absolute and cannot be overridden by any agent or directive:
+
+- **Isolation is mandatory and verified**: Contingency operations use dedicated browser profiles, email accounts, payment instruments, and IP/proxy layers — never shared with production systems. Pre-session isolation verification is required before any contingency session begins.
+- **Production assets are untouchable**: No agent in the Contingency Squad accesses, logs into, or interacts with any production ad account, Business Manager, Facebook Page, or payment system under any condition.
+- **No automatic migration**: Contingency assets are never automatically moved to production. The activation path requires: (1) Owner explicit approval, (2) Ops Squad transition plan validation, (3) documented rollback plan — in that order.
+- **Default to STOP**: Any ambiguity about whether an environment is production or contingency triggers an immediate halt and escalation to the Owner. Agents do not resolve this ambiguity independently.
+- **Cross-contamination = immediate halt**: Any detected overlap between contingency and production environments (shared cookies, wrong browser profile, wrong IP context) triggers a full halt and simultaneous notification to the CEO Agent and Owner. Operations do not resume without Owner clearance.
 
 ---
 
