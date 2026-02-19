@@ -6,261 +6,452 @@
 # stored in the approved secrets manager ONLY — never here.
 # ============================================================
 # Schema version: 1.0
+# Initialized: 2026-02-19
+# Authorized by: CEO Agent — DEC-2026-02-19-002
 # Maintained by: Contingency Chief (entries require CEO Agent
 # authorization for new assets; human owner approval for any
 # action that changes ACTIVE assets)
-# Access policy: governance/access-control-policy.md
 # ============================================================
-
-schema:
-  asset_id:
-    type: string
-    description: "Unique alias. Format: TYPE_REGION_NN. No real names, emails, or usernames."
-  type:
-    type: string
-    enum:
-      - BUSINESS_MANAGER
-      - AD_ACCOUNT
-      - FB_PAGE
-      - IG_PROFILE
-      - FB_PROFILE
-      - EMAIL_ACCOUNT
-      - BROWSER_PROFILE
-      - DOMAIN
-      - PIXEL
-  status:
-    type: string
-    enum:
-      - WARMING       # In warm-up protocol; not yet operational
-      - READY         # Warm-up complete; available for activation
-      - ACTIVE        # Deployed in live operations
-      - ISOLATED      # Flagged or suspended; removed from ready pool
-      - RETIRED       # Permanently decommissioned
-  region:
-    type: string
-    description: "Operational region code. e.g., US, CA, UK, AU"
-  platform:
-    type: string
-    description: "Platform this asset belongs to. e.g., META, GOOGLE, TIKTOK, EMAIL, BROWSER, DNS"
-  allowed_actions:
-    type: list
-    description: "Explicit list of authorized actions for this asset. Executors may only perform actions on this list."
-  risk_level:
-    type: string
-    enum:
-      - LOW     # No flags; no restrictions; full trust signal
-      - MEDIUM  # Minor historical flag or new/thin trust; monitor
-      - HIGH    # Recent policy warning or restriction; restricted use
-  notes:
-    type: string
-    description: "Operational notes. Warm-up progress, risk context, last verified date. No credentials here."
-
-# ============================================================
-# EXAMPLE ENTRIES
-# ============================================================
-# These are schema-compliant examples. Replace or extend with
-# real entries as assets are farmed and onboarded.
+# Owner approval REQUIRED for:
+#   - billing_attached: any change (R4)
+#   - matriz_connection_authorized: any change (R3)
+#   - Any asset status → ACTIVE (production use)
+#   - Permanent asset retirement
 # ============================================================
 
 assets:
 
-  # --- Business Managers ---
+  # ══════════════════════════════════════════════
+  # OPERATION: META ACCOUNT FARM — DACH/LU NUTRA
+  # TP-CONT-001 | Start: 2026-02-19 | Target READY: 2026-03-04
+  # ══════════════════════════════════════════════
 
-  - asset_id: BM_US_01
-    type: BUSINESS_MANAGER
-    status: READY
-    region: US
-    platform: META
-    allowed_actions:
-      - structure_review
-      - page_attachment
-      - ad_account_attachment
-      - pixel_assignment
-    risk_level: LOW
-    notes: "Warm-up complete 2024-01-10. 14-day organic activity prior to BM creation. No policy flags. Assign ad accounts only after CEO Agent authorization."
+  # ── EMAIL ACCOUNTS ──────────────────────────
 
-  - asset_id: BM_US_02
-    type: BUSINESS_MANAGER
-    status: WARMING
-    region: US
-    platform: META
-    allowed_actions:
-      - structure_review
-    risk_level: LOW
-    notes: "Warm-up started 2024-01-15. Expected READY status: 2024-01-29. No actions permitted until READY."
-
-  # --- Ad Accounts ---
-
-  - asset_id: ADACC_US_01
-    type: AD_ACCOUNT
-    status: READY
-    region: US
-    platform: META
-    allowed_actions:
-      - structure_review
-      - campaign_structure_migration
-    risk_level: LOW
-    notes: "Attached to BM_US_01. No billing attached. No campaigns. Warm-up complete 2024-01-12. Billing attachment requires human owner approval (R4)."
-
-  - asset_id: ADACC_US_02
-    type: AD_ACCOUNT
-    status: WARMING
-    region: US
-    platform: META
-    allowed_actions:
-      - structure_review
-    risk_level: LOW
-    notes: "Attached to BM_US_02. 5-day account warm-up in progress. No actions permitted until READY."
-
-  - asset_id: ADACC_US_03
-    type: AD_ACCOUNT
-    status: ACTIVE
-    region: US
-    platform: META
-    allowed_actions:
-      - campaign_operations
-      - budget_adjustments
-      - creative_upload
-    risk_level: LOW
-    notes: "Currently in live operations under Ads Squad. Activated 2024-01-05. Owned by Traffic Chief. No Contingency Squad actions without Ads Squad handoff confirmation."
-
-  - asset_id: ADACC_US_04
-    type: AD_ACCOUNT
-    status: ISOLATED
-    region: US
-    platform: META
-    allowed_actions: []
-    risk_level: HIGH
-    notes: "Policy warning received 2024-01-08. Account isolated per Platform Risk Sentinel escalation. No actions permitted. Under CEO Agent review."
-
-  # --- Facebook Pages ---
-
-  - asset_id: FBPAGE_US_01
-    type: FB_PAGE
-    status: READY
-    region: US
-    platform: META
-    allowed_actions:
-      - organic_posting
-      - campaign_attachment
-    risk_level: LOW
-    notes: "10-day warm-up complete 2024-01-09. 22 organic posts. 150+ follows. Available for activation in next Mode B event."
-
-  - asset_id: FBPAGE_US_02
-    type: FB_PAGE
-    status: WARMING
-    region: US
-    platform: META
-    allowed_actions:
-      - organic_posting
-    risk_level: LOW
-    notes: "Warm-up started 2024-01-14. Day 4 of 10. Organic posting on schedule. No campaign attachment until READY."
-
-  # --- Instagram Profiles ---
-
-  - asset_id: IG_US_01
-    type: IG_PROFILE
-    status: READY
-    region: US
-    platform: META
-    allowed_actions:
-      - organic_posting
-      - campaign_attachment
-    risk_level: LOW
-    notes: "7-day warm-up complete. Profile complete. 30+ organic posts. Linked to FBPAGE_US_01 for campaign use."
-
-  - asset_id: IG_US_02
-    type: IG_PROFILE
-    status: WARMING
-    region: US
-    platform: META
-    allowed_actions:
-      - organic_posting
-    risk_level: LOW
-    notes: "Warm-up in progress. Day 3 of 7."
-
-  # --- Email Accounts ---
-
-  - asset_id: EMAIL_OPS_US_01
+  - asset_id: EMAIL_META_ADV_01
     type: EMAIL_ACCOUNT
-    status: ACTIVE
-    region: US
+    status: PENDING_CREATION
+    region: EU
     platform: EMAIL
+    assigned_to_profile: FBPRO_ADV_01
+    browser_profile: BROWSER_META_ADV_01
     allowed_actions:
+      - account_creation
+      - recovery_setup
       - platform_registration
-      - account_recovery_backup
-      - notification_receiving
     risk_level: LOW
-    notes: "Operational email for BM_US_01 account recovery and platform communications. Not for outbound campaigns. No credentials stored here."
+    notes: "Gmail account for FBPRO_ADV_01. Create Day 1."
 
-  - asset_id: EMAIL_OPS_US_02
+  - asset_id: EMAIL_META_ADV_02
     type: EMAIL_ACCOUNT
-    status: READY
-    region: US
+    status: PENDING_CREATION
+    region: EU
     platform: EMAIL
+    assigned_to_profile: FBPRO_ADV_02
+    browser_profile: BROWSER_META_ADV_02
     allowed_actions:
+      - account_creation
+      - recovery_setup
       - platform_registration
-      - account_recovery_backup
     risk_level: LOW
-    notes: "Warm-up complete. 5-day send/receive cadence established. Available for next BM or ad account registration."
+    notes: "Gmail account for FBPRO_ADV_02. Create Day 1."
 
-  # --- Browser Profiles ---
+  - asset_id: EMAIL_META_ADV_03
+    type: EMAIL_ACCOUNT
+    status: PENDING_CREATION
+    region: EU
+    platform: EMAIL
+    assigned_to_profile: FBPRO_ADV_03
+    browser_profile: BROWSER_META_ADV_03
+    allowed_actions:
+      - account_creation
+      - recovery_setup
+      - platform_registration
+    risk_level: LOW
+    notes: "Gmail account for FBPRO_ADV_03. Create Day 1."
 
-  - asset_id: BROWSER_PROFILE_META_01
+  - asset_id: EMAIL_META_PAGE_01
+    type: EMAIL_ACCOUNT
+    status: PENDING_CREATION
+    region: EU
+    platform: EMAIL
+    assigned_to_profile: FBPRO_PAGE_01
+    browser_profile: BROWSER_META_PAGE_01
+    allowed_actions:
+      - account_creation
+      - recovery_setup
+      - platform_registration
+    risk_level: LOW
+    notes: "Gmail account for FBPRO_PAGE_01. Create Day 1."
+
+  - asset_id: EMAIL_META_PAGE_02
+    type: EMAIL_ACCOUNT
+    status: PENDING_CREATION
+    region: EU
+    platform: EMAIL
+    assigned_to_profile: FBPRO_PAGE_02
+    browser_profile: BROWSER_META_PAGE_02
+    allowed_actions:
+      - account_creation
+      - recovery_setup
+      - platform_registration
+    risk_level: LOW
+    notes: "Gmail account for FBPRO_PAGE_02. Create Day 1."
+
+  - asset_id: EMAIL_META_MATRIZ_01
+    type: EMAIL_ACCOUNT
+    status: PENDING_CREATION
+    region: EU
+    platform: EMAIL
+    assigned_to_profile: FBPRO_MATRIZ_01
+    browser_profile: BROWSER_META_MATRIZ_01
+    allowed_actions:
+      - account_creation
+      - recovery_setup
+      - platform_registration
+    risk_level: LOW
+    notes: "Gmail account for FBPRO_MATRIZ_01 (matriz). Create Day 1."
+
+  # ── BROWSER PROFILES (isolated, one per persona) ────
+
+  - asset_id: BROWSER_META_ADV_01
     type: BROWSER_PROFILE
-    status: ACTIVE
-    region: US
+    status: PENDING_CREATION
+    region: EU
     platform: BROWSER
+    proxy_designation: PROXY_CONT_01
     allowed_actions:
       - meta_platform_ui_actions
       - warm_up_browsing
       - account_management_ui
     risk_level: LOW
-    notes: "Isolated Chromium profile. Used exclusively for META platform operations. Cookies and session established. Assigned to Browser & Automation Operator tasks only. Profile path stored in secrets manager."
+    notes: "Isolated profile — FBPRO_ADV_01 only. Dedicated proxy PROXY_CONT_01. Never shares cookies with production."
 
-  - asset_id: BROWSER_PROFILE_META_02
+  - asset_id: BROWSER_META_ADV_02
     type: BROWSER_PROFILE
-    status: READY
-    region: US
+    status: PENDING_CREATION
+    region: EU
     platform: BROWSER
+    proxy_designation: PROXY_CONT_02
     allowed_actions:
       - meta_platform_ui_actions
       - warm_up_browsing
+      - account_management_ui
     risk_level: LOW
-    notes: "Warm-up browsing complete. Available for assignment. Not currently in active use."
+    notes: "Isolated profile — FBPRO_ADV_02 only. Dedicated proxy PROXY_CONT_02."
 
-  - asset_id: BROWSER_PROFILE_GOOGLE_01
+  - asset_id: BROWSER_META_ADV_03
     type: BROWSER_PROFILE
-    status: READY
-    region: US
+    status: PENDING_CREATION
+    region: EU
     platform: BROWSER
+    proxy_designation: PROXY_CONT_03
     allowed_actions:
-      - google_platform_ui_actions
+      - meta_platform_ui_actions
       - warm_up_browsing
+      - account_management_ui
     risk_level: LOW
-    notes: "Isolated profile for Google Ads platform operations. Cookie warm-up complete."
+    notes: "Isolated profile — FBPRO_ADV_03 only. Dedicated proxy PROXY_CONT_03."
 
-  # --- Domains ---
-
-  - asset_id: DOMAIN_BACKUP_US_01
-    type: DOMAIN
-    status: READY
-    region: US
-    platform: DNS
+  - asset_id: BROWSER_META_PAGE_01
+    type: BROWSER_PROFILE
+    status: PENDING_CREATION
+    region: EU
+    platform: BROWSER
+    proxy_designation: PROXY_CONT_04
     allowed_actions:
-      - landing_page_deployment
+      - meta_platform_ui_actions
+      - warm_up_browsing
+      - account_management_ui
     risk_level: LOW
-    notes: "Registered backup domain. DNS not pointed to active infrastructure. Available for landing page deployment if primary domain is flagged. DNS changes require human owner approval (R4)."
+    notes: "Isolated profile — FBPRO_PAGE_01 only. Dedicated proxy PROXY_CONT_04."
 
-  # --- Pixels ---
+  - asset_id: BROWSER_META_PAGE_02
+    type: BROWSER_PROFILE
+    status: PENDING_CREATION
+    region: EU
+    platform: BROWSER
+    proxy_designation: PROXY_CONT_05
+    allowed_actions:
+      - meta_platform_ui_actions
+      - warm_up_browsing
+      - account_management_ui
+    risk_level: LOW
+    notes: "Isolated profile — FBPRO_PAGE_02 only. Dedicated proxy PROXY_CONT_05."
 
-  - asset_id: PIXEL_META_BACKUP_01
-    type: PIXEL
-    status: READY
-    region: US
+  - asset_id: BROWSER_META_MATRIZ_01
+    type: BROWSER_PROFILE
+    status: PENDING_CREATION
+    region: EU
+    platform: BROWSER
+    proxy_designation: PROXY_CONT_06
+    allowed_actions:
+      - meta_platform_ui_actions
+      - warm_up_browsing
+      - account_management_ui
+    risk_level: LOW
+    notes: "Isolated profile — FBPRO_MATRIZ_01 only. Dedicated proxy PROXY_CONT_06."
+
+  # ── FACEBOOK PROFILES ───────────────────────
+
+  - asset_id: FBPRO_ADV_01
+    type: FB_PROFILE
+    status: PENDING_CREATION
+    region: EU
     platform: META
+    role: advertising
+    email_alias: EMAIL_META_ADV_01
+    browser_profile: BROWSER_META_ADV_01
+    bm_alias: BM_META_01
+    adacc_alias: ADACC_META_01
+    warmup_day: 0
+    warmup_complete: false
     allowed_actions:
-      - page_installation
-      - event_configuration
+      - profile_creation
+      - organic_posting
+      - niche_engagement
+      - bm_creation
     risk_level: LOW
-    notes: "Backup Meta pixel. Not installed on any live page. Available for deployment on DOMAIN_BACKUP_US_01 or any activated replacement landing page. Installation requires Ops/QC tracking verification."
+    notes: "Advertising profile. Day 1: create. Days 1-7: warm. Day 7: create BM_META_01."
+
+  - asset_id: FBPRO_ADV_02
+    type: FB_PROFILE
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    role: advertising
+    email_alias: EMAIL_META_ADV_02
+    browser_profile: BROWSER_META_ADV_02
+    bm_alias: BM_META_02
+    adacc_alias: ADACC_META_02
+    warmup_day: 0
+    warmup_complete: false
+    allowed_actions:
+      - profile_creation
+      - organic_posting
+      - niche_engagement
+      - bm_creation
+    risk_level: LOW
+    notes: "Advertising profile. Day 1: create. Days 1-7: warm. Day 7: create BM_META_02."
+
+  - asset_id: FBPRO_ADV_03
+    type: FB_PROFILE
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    role: advertising
+    email_alias: EMAIL_META_ADV_03
+    browser_profile: BROWSER_META_ADV_03
+    bm_alias: BM_META_03
+    adacc_alias: ADACC_META_03
+    warmup_day: 0
+    warmup_complete: false
+    allowed_actions:
+      - profile_creation
+      - organic_posting
+      - niche_engagement
+      - bm_creation
+    risk_level: LOW
+    notes: "Advertising profile. Day 1: create. Days 1-7: warm. Day 7: create BM_META_03."
+
+  - asset_id: FBPRO_PAGE_01
+    type: FB_PROFILE
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    role: page_admin
+    email_alias: EMAIL_META_PAGE_01
+    browser_profile: BROWSER_META_PAGE_01
+    page_alias: FBPAGE_NUTRA_01
+    warmup_day: 0
+    warmup_complete: false
+    allowed_actions:
+      - profile_creation
+      - organic_posting
+      - niche_engagement
+      - page_creation
+    risk_level: LOW
+    notes: "Page admin profile. Day 1: create. Days 1-5: warm. Day 5: create FBPAGE_NUTRA_01."
+
+  - asset_id: FBPRO_PAGE_02
+    type: FB_PROFILE
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    role: page_admin
+    email_alias: EMAIL_META_PAGE_02
+    browser_profile: BROWSER_META_PAGE_02
+    page_alias: FBPAGE_NUTRA_02
+    warmup_day: 0
+    warmup_complete: false
+    allowed_actions:
+      - profile_creation
+      - organic_posting
+      - niche_engagement
+      - page_creation
+    risk_level: LOW
+    notes: "Page admin profile. Day 1: create. Days 1-5: warm. Day 5: create FBPAGE_NUTRA_02."
+
+  - asset_id: FBPRO_MATRIZ_01
+    type: FB_PROFILE
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    role: matriz
+    email_alias: EMAIL_META_MATRIZ_01
+    browser_profile: BROWSER_META_MATRIZ_01
+    receives_access_to: [BM_META_01, BM_META_02, BM_META_03, FBPAGE_NUTRA_01, FBPAGE_NUTRA_02]
+    matriz_connection_authorized: false  # OWNER APPROVAL REQUIRED before connection
+    warmup_day: 0
+    warmup_complete: false
+    allowed_actions:
+      - profile_creation
+      - organic_posting
+      - niche_engagement
+    risk_level: LOW
+    notes: "Matriz profile. Warms like others. Final connection to all BMs and Pages requires Owner approval via WhatsApp BEFORE execution."
+
+  # ── FACEBOOK PAGES ──────────────────────────
+
+  - asset_id: FBPAGE_NUTRA_01
+    type: FB_PAGE
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    niche: health_wellness_nutraceutical
+    created_by: FBPRO_PAGE_01
+    admin_profile: FBPRO_PAGE_01
+    warmup_day: 0
+    post_count: 0
+    follower_count: 0
+    allowed_actions:
+      - page_creation
+      - organic_posting
+      - niche_engagement
+    risk_level: LOW
+    notes: "Health/wellness niche page in German. Created Day 5 by FBPRO_PAGE_01. Post niche health content daily."
+
+  - asset_id: FBPAGE_NUTRA_02
+    type: FB_PAGE
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    niche: health_wellness_nutraceutical
+    created_by: FBPRO_PAGE_02
+    admin_profile: FBPRO_PAGE_02
+    warmup_day: 0
+    post_count: 0
+    follower_count: 0
+    allowed_actions:
+      - page_creation
+      - organic_posting
+      - niche_engagement
+    risk_level: LOW
+    notes: "Health/wellness niche page in German. Created Day 5 by FBPRO_PAGE_02. Post niche health content daily."
+
+  # ── BUSINESS MANAGERS ───────────────────────
+
+  - asset_id: BM_META_01
+    type: BUSINESS_MANAGER
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    owner_profile: FBPRO_ADV_01
+    ad_account_alias: ADACC_META_01
+    billing_attached: false
+    allowed_actions:
+      - bm_creation
+      - structure_setup
+    risk_level: LOW
+    notes: "Created Day 7 by FBPRO_ADV_01. Structure only. Ad Account created Day 12. Billing: Owner approval only."
+
+  - asset_id: BM_META_02
+    type: BUSINESS_MANAGER
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    owner_profile: FBPRO_ADV_02
+    ad_account_alias: ADACC_META_02
+    billing_attached: false
+    allowed_actions:
+      - bm_creation
+      - structure_setup
+    risk_level: LOW
+    notes: "Created Day 7 by FBPRO_ADV_02. Structure only."
+
+  - asset_id: BM_META_03
+    type: BUSINESS_MANAGER
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    owner_profile: FBPRO_ADV_03
+    ad_account_alias: ADACC_META_03
+    billing_attached: false
+    allowed_actions:
+      - bm_creation
+      - structure_setup
+    risk_level: LOW
+    notes: "Created Day 7 by FBPRO_ADV_03. Structure only."
+
+  # ── AD ACCOUNTS (skeleton only) ─────────────
+
+  - asset_id: ADACC_META_01
+    type: AD_ACCOUNT
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    parent_bm: BM_META_01
+    billing_attached: false   # ABSOLUTE — R4 — Owner approval mandatory
+    campaigns_created: false  # ABSOLUTE — zero campaigns until Owner authorizes
+    currency: EUR
+    timezone: Europe/Berlin
+    allowed_actions:
+      - account_creation
+      - structure_setup
+    risk_level: LOW
+    notes: "Created Day 12 inside BM_META_01. No billing. No campaigns. Structure only."
+
+  - asset_id: ADACC_META_02
+    type: AD_ACCOUNT
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    parent_bm: BM_META_02
+    billing_attached: false
+    campaigns_created: false
+    currency: EUR
+    timezone: Europe/Berlin
+    allowed_actions:
+      - account_creation
+      - structure_setup
+    risk_level: LOW
+    notes: "Created Day 12 inside BM_META_02. No billing. No campaigns."
+
+  - asset_id: ADACC_META_03
+    type: AD_ACCOUNT
+    status: PENDING_CREATION
+    region: EU
+    platform: META
+    parent_bm: BM_META_03
+    billing_attached: false
+    campaigns_created: false
+    currency: EUR
+    timezone: Europe/Berlin
+    allowed_actions:
+      - account_creation
+      - structure_setup
+    risk_level: LOW
+    notes: "Created Day 12 inside BM_META_03. No billing. No campaigns."
+
+# ── REGISTRY SUMMARY ────────────────────────
+registry_summary:
+  total_assets: 24
+  operation: META_ACCOUNT_FARM_001
+  status_counts:
+    PENDING_CREATION: 24
+    WARMING: 0
+    READY: 0
+    ACTIVE: 0
+    ISOLATED: 0
+    RETIRED: 0
+  last_updated: "2026-02-19"
