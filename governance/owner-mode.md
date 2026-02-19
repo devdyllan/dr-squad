@@ -9,15 +9,16 @@
 ## Current Mode
 
 ```
-owner.operating_mode: active
+owner.operating_mode: delegated
 # Set: 2026-02-19
-# Reason: Research phase startup — Owner reviewing all Tier 2+ decisions.
-#
-# Modes:
-#   active    = Human reviews most decisions; CEO Agent surfaces all Tier 2+ promptly.
-#   standard  = Human reviews weekly digest + Tier 3 escalations. CEO Agent autonomous on Tier 1.
-#   delegated = Human has granted extended autonomous authority for defined period.
-#               All actions logged for owner review. Tier 3 still requires approval.
+# Reason: Owner is not operational. CEO Agent runs autonomously within defined scope.
+# Owner is contacted via WhatsApp ONLY for:
+#   - Phase gate sign-off (ex: Research Phase → Copy Phase)
+#   - A5 decisions (irreversible or high-cost actions)
+#   - P4+ platform risk events (account restriction, ban, payment flag)
+#   - Budget ceiling breach (API costs approaching $100 limit)
+#   - Emergency Stop request
+# Everything else: CEO Agent decides, logs, and executes.
 ```
 
 ---
@@ -26,7 +27,8 @@ owner.operating_mode: active
 
 | Date | Mode Set | Reason | Owner |
 |---|---|---|---|
-| 2026-02-19 | active | Research phase startup | Owner |
+| 2026-02-19 | active | Research phase startup (inicial) | Owner |
+| 2026-02-19 | delegated | Owner não operacional — CEO autônomo, WhatsApp só em críticos | Owner |
 
 ---
 

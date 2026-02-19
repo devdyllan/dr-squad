@@ -14,10 +14,10 @@ This file stores the human owner's operational settings for the DR Squad AIOS. T
 ## Operating Mode
 
 ```
-owner.operating_mode: active
+owner.operating_mode: delegated
 # Options: active | standard | delegated
-# active = Owner reviews most decisions; CEO Agent surfaces all Tier 2+ decisions promptly.
-# Starting in active mode for initial research phase — switch to standard once ops are running.
+# delegated = CEO Agent runs autonomously within scope. Owner contacted via WhatsApp ONLY for
+# critical decisions: phase gates, A5 actions, P4+ risk events, budget ceiling breach.
 # See governance/governance-framework.md Section 1.2 for definitions.
 ```
 
@@ -157,6 +157,7 @@ contingency.cross_contamination_response: IMMEDIATE_HALT
 | 2026-02-19 | platform_risk.notification_channel | TO BE CONFIGURED | whatsapp | Owner |
 | 2026-02-19 | research phase settings | — | Added research block | Owner |
 | 2026-02-19 | escalation.primary_channel | TO BE CONFIGURED | whatsapp://+16176728278 | Owner |
+| 2026-02-19 | operating_mode | active | delegated (CEO autônomo, Owner só em críticos) | Owner |
 
 ---
 
