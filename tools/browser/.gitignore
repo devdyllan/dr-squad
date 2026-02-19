@@ -1,0 +1,9 @@
+# Never commit real credentials or browser session data
+.env
+profiles/*/
+!profiles/.gitkeep
+
+# Screenshots may contain sensitive platform UI — do not commit
+# (they go to data/contingency/farming-logs/screenshots/ which is also gitignored)
+
+node_modules/

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "dr-squad-browser": {
+      "command": "node",
+      "args": ["tools/browser/mcp-server.js"],
+      "cwd": "/home/user/dr-squad",
+      "env": {},
+      "description": "DR Squad browser automation — Playwright with stealth + per-persona proxies. Controlled by Contingency Squad via CEO Agent."
+    }
+  }
+}
